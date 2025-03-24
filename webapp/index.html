@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+            color: var(--tg-theme-text-color, #000);
+        }
+        button {
+            background: var(--tg-theme-button-color, #0088cc);
+            color: var(--tg-theme-button-text-color, #fff);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form id="registrationForm">
+        <!-- Form content will be dynamically updated based on language -->
+    </form>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedLang = urlParams.get('lang') || 'en';
+        const userId = urlParams.get('user_id');
+
+        // Define translations
+        const translations = {
+            'en': {
+                language: 'Language',
+                fullName: 'Full Name',
+                phone: 'Phone Number',
+                amount: 'Monthly Donation Amount',
+                duration: 'Duration',
+                months: {
+                    1: '1 Month',
+                    3: '3 Months',
+                    6: '6 Months',
+                    12: '12 Months'
+                },
+                register: 'Submit'
+            },
+            'am': {
+                language: 'ቋንቋ',
+                fullName: 'ሙሉ ስም',
+                phone: 'ስልክ ቁጥር',
+                amount: 'የወር ልገሳ መጠን',
+                duration: 'ጊዜ',
+                months: {
+                    1: '1 ወር',
+                    3: '3 ወራት',
+                    6: '6 ወራት',
+                    12: '12 ወራት'
+                },
+                register: 'አስገባ'
+            },
+            'or': {
+                language: 'Afaan',
+                fullName: 'Maqaa Guutuu',
+                phone: 'Lakkoofsa Bilbilaa',
+                amount: 'Hanga Kennaa Ji\'aa',
+                duration: 'Yeroo',
+                months: {
+                    1: 'Ji\'a 1',
+                    3: 'Ji\'a 3',
+                    6: 'Ji\'a 6',
+                    12: 'Ji\'a 12'
+                },
+                register: 'Galchi'
+            },
+            'ar': {
+                language: 'اللغة',
+                fullName: 'الاسم الكامل',
+                phone: 'رقم الهاتف',
+                amount: 'مبلغ التبرع الشهري',
+                duration: 'المدة',
+                months: {
+                    1: 'شهر واحد',
+                    3: '3 أشهر',
+                    6: '6 أشهر',
+                    12: '12 شهر'
+                },
+                register: 'إرسال'
+            }
+        };
+
+        // Function to load user data if available
+        function loadUserData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langMap = {
+                'en': 'English',
+                'am': 'Amharic',
+                'or': 'Affan Oromo',
+                'ar': 'Arabic'
+            };
+            if (urlParams.get('lang')){
+              language = langMap[urlParams.get('lang')]
+            }else{
+              language = 'English'
+            }
+
+
+            document.getElementById('fullName').value = decodeURIComponent(urlParams.get('fullName') || '');
+            document.getElementById('phone').value = urlParams.get('phone') || '';
+            document.getElementById('amount').value = urlParams.get('amount') || '';
+            document.getElementById('duration').value = urlParams.get('duration') || '';
+            document.getElementById('language').value = language;
+        }
+
+        function updateFormContent(t, selectedLang) {
+            const langMap = {
+                'en': 'English',
+                'am': 'Amharic',
+                'or': 'Affan Oromo',
+                'ar': 'Arabic'
+            };
+            
+            document.getElementById('registrationForm').innerHTML = `
+                <div class="form-group">
+                    <label for="language">${t.language}</label>
+                    <select id="language" required onchange="handleLanguageChange(this.value)">
+                        <option value="Amharic" ${langMap[selectedLang] === 'Amharic' ? 'selected' : ''}>አማርኛ</option>
+                        <option value="Affan Oromo" ${langMap[selectedLang] === 'Affan Oromo' ? 'selected' : ''}>Afaan Oromoo</option>
+                        <option value="English" ${langMap[selectedLang] === 'English' ? 'selected' : ''}>English</option>
+                        <option value="Arabic" ${langMap[selectedLang] === 'Arabic' ? 'selected' : ''}>العربية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fullName">${t.fullName}</label>
+                    <input type="text" id="fullName" required minlength="3" title="Please enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="phone">${t.phone}</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">${t.amount}</label>
+                    <input type="number" id="amount" min="100" max="1000000" required>
+                </div>
+                <div class="form-group">
+                    <label for="duration">${t.duration}</label>
+                    <select id="duration" required>
+                        <option value="1">${t.months[1]}</option>
+                        <option value="3">${t.months[3]}</option>
+                        <option value="6">${t.months[6]}</option>
+                        <option value="12">${t.months[12]}</option>
+                    </select>
+                </div>
+                <button type="submit">${t.register}</button>
+            `;
+
+            // Reattach the submit event listener
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    phone: document.getElementById('phone').value,
+                    language: document.getElementById('language').value,
+                    amount: document.getElementById('amount').value,
+                    duration: document.getElementById('duration').value,
+                    isUpdate: Boolean(userId)
+                };
+                tg.sendData(JSON.stringify(formData));
+            });
+
+            // Load user data if available
+            loadUserData();
+        }
+
+        function handleLanguageChange(value) {
+            const langMap = {
+                "Amharic": "am",
+                "Affan Oromo": "or",
+                "English": "en",
+                "Arabic": "ar"
+            };
+            const lang = langMap[value];
+            if (lang) {
+                updateFormContent(translations[lang], lang);
+                // Restore form values
+                const formFields = ['fullName', 'phone', 'amount', 'duration'];
+                formFields.forEach(field => {
+                    const el = document.getElementById(field);
+                    if (el) el.value = document.getElementById(field).value;
+                });
+                document.getElementById('language').value = value;
+            }
+        }
+
+        // Initialize form with selected language
+        updateFormContent(translations[selectedLang], selectedLang);
+    </script>
+</body>
+</html>

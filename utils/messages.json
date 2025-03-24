@@ -1,0 +1,69 @@
+{
+  "welcome": {
+    "en": "Welcome! 👋\n\nI'm your donation management assistant. I can help you:\n• Set up recurring donations\n• Get payment reminders\n\nTap 'Register' to begin!",
+    "am": "እንኳን ደህና መጡ! 👋\n\nእኔ የእርስዎ የልገሳ አስተዳዳሪ ነኝ። እርዳታ እችላለሁ፡\n• ተከታታይ ልገሳዎችን ማዘጋጀት\n• የክፍያ ማስታወሻዎችን ማግኘት\n\nለመመዝገብ 'Register' የሚለውን ይጫኑ!",
+    "or": "Baga nagaan dhuftan! 👋\n\nAni gargaaraa keessan kennaa keessanii. Isin gargaaruu nan danda'a:\n• Kennaa yeroo yeroon kennuu\n• Yaadachiisa kaffaltii argachuu\n\nGalmeessuuf 'Register' tuqi!",
+    "ar": "مرحباً! 👋\n\nأنا مساعد إدارة التبرعات. يمكنني مساعدتك في:\n• إعداد التبرعات المتكررة\n• الحصول على تذكيرات الدفع\n\nانقر على 'Register' للبدء!"
+  },
+  "registration_complete": {
+    "en": "Registration complete! ✅\n\nYour plan:\n💰 Amount: {amount}\n📅 Duration: {duration} months\n\nI'll remind you when it's time to pay!\nYour next payment will be due on {next_due}.Would you like to start the donation now or on the due date?",
+    "am": "ምዝገባው ተጠናቋል! ✅\n\nየእርስዎ እቅድ:\n💰 መጠን: {amount}\n📅 ጊዜ: {duration} ወራት\n\nጊዜው ሲደርስ አስታውሰዎታለሁ!\nቀጣዩ ክፍያዎ {next_due} ላይ ነው።",
+    "or": "Galmeen xumurame! ✅\n\nKaroora kee:\n💰 Hanga: {amount}\n📅 Yeroo: {duration} ji'a\n\nYeroo kaffaltii yoo gahee sin yaadachiisa!\nKaffaltiin itti aanu {next_due} irratti ta'a.",
+    "ar": "اكتمل التسجيل! ✅\n\nخطتك:\n💰 المبلغ: {amount}\n📅 المدة: {duration} أشهر\n\nسأذكرك عندما يحين موعد الدفع!\nسيكون الدفع التالي في {next_due}."
+  },
+  "payment_reminder": {
+    "en": "Dear {name},\n\nYour payment of {amount} was due on {due_date}. Please send your payment receipt screenshot.",
+    "am": "ውድ {name},\n\nየ{amount} ክፍያዎ በ{due_date} መከፈል ነበረበት። እባክዎ የክፍያ ደረሰኝዎን ይላኩ።",
+    "or": "Kabajamaa {name},\n\nKaffaltiin keessan kan {amount} {due_date} ture. Maaloo baatanii buttona armaan gadii fayyadamuun ergi.",
+    "ar": "عزيزي {name}،\n\nكان موعد دفع {amount} في {due_date}. يرجى إرسال إيصال الدفع ."
+  },
+  "payment_success": {
+    "en": "Thank you for your payment! Your next payment will be due on {next_due}.",
+    "am": "ስለ ክፍያዎ እናመሰግናለን! ቀጣዩ ክፍያዎ {next_due} ላይ ነው።",
+    "or": "Kaffaltii keessaniif galatoomi! Kaffaltiin itti aanu {next_due} irratti ta'a.",
+    "ar": "شكراً لدفعك! سيكون الدفع التالي في {next_due}."
+  },
+  "payment_already_paid": {
+    "en": "You've already paid for this period! Next payment due on {next_due}.",
+    "am": "You've already paid for this period! ቀጣዩ ክፍያዎ {next_due} ላይ ነው።",
+    "or": "You've already paid for this period! Kaffaltiin itti aanu {next_due} irratti ta'a.",
+    "ar": "You've already paid for this period! سيكون الدفع التالي في {next_due}."
+  },
+  "account_deleted": {
+    "en": "Account deleted successfully! 👋",
+    "am": "መለያው በተሳካ ሁኔታ ተሰርዟል! 👋",
+    "or": "Herrega keessan haaqameera! 👋",
+    "ar": "تم حذف الحساب بنجاح! 👋"
+  },
+  "admin_message": {
+    "en": "Message from Admin:\n\n{message}",
+    "am": "ከአስተዳዳሪው የመጣ መልዕክት:\n\n{message}",
+    "or": "Ergaa Admin irraa:\n\n{message}",
+    "ar": "رسالة من المسؤول:\n\n{message}"
+  },
+  "user_message": {
+    "en": "Message from {name} (ID: {id}):\n\n{message}",
+    "am": "ከ{name} (መለያ: {id}) የመጣ መልዕክት:\n\n{message}",
+    "or": "Ergaa {name} (ID: {id}) irraa:\n\n{message}",
+    "ar": "رسالة من {name} (المعرف: {id}):\n\n{message}"
+  },
+  "payment_info": {
+    "en": "Your current donation plan:\n💰 Amount: {amount}\n📅 Next payment: {next_date}\n⏳ Days remaining: {days}",
+    "am": "የአሁኑ የልገሳ እቅድዎ:\n💰 መጠን: {amount}\n📅 ቀጣይ ክፍያ: {next_date}\n⏳ የቀሩ ቀናት: {days}",
+    "or": "Karoora kennaa keessan kan ammaa:\n💰 Hanga: {amount}\n📅 Kaffaltii itti aanu: {next_date}\n⏳ Guyyoota hafe: {days}",
+    "ar": "خطة التبرع الحالية:\n💰 المبلغ: {amount}\n📅 الدفع التالي: {next_date}\n⏳ الأيام المتبقية: {days}"
+  },
+  "profile_update": {
+    "en": "Update your profile information below:",
+    "am": "የመገለጫ መረጃዎን ከዚህ በታች ያዘምኑ:",
+    "or": "Odeeffannoo profaayilii keessanii armaan gaditti haaromsa:",
+    "ar": "قم بتحديث معلومات ملفك الشخصي أدناه:"
+  },
+  "profile_updated": {
+    "en": "Your profile has been updated successfully! 🎉\nTo return to the home page, type /start.",
+    "am": "የመገለጫ መረጃዎ በተሳካ ሁኔታ ተዘምኗል! 🎉\nወደ መነሻ ገጽ ለመመለስ /start ይተይቡ።",
+    "or": "Profaayilii keessanii sirriitti haaromameera! 🎉\nEessumaatti deebi'uuf /start jedhu taphachaa.",
+    "ar": "تم تحديث ملفك الشخصي بنجاح! 🎉\nللعودة إلى الصفحة الرئيسية، اكتب /start."
+}
+
+}
