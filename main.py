@@ -14,7 +14,7 @@ session = Session()
 logging.basicConfig(level=logging.INFO)
 
 dotenv.load_dotenv()
-WEBAPP_URL = "https://szl449rq-5500.euw.devtunnels.ms/"  # Replace with your actual webapp URL
+WEBAPP_URL = "https://sualh1999.github.io/hanif_donation_bot/"
 TOKEN = os.getenv("TOKEN")
 # Add conversation state
 SEND_RECEIPT = 1
