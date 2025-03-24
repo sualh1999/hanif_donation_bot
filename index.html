@@ -1,223 +1,506 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Donation Registration</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            background: var(--tg-theme-bg-color, #fff);
-            color: var(--tg-theme-text-color, #000);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
-            color: var(--tg-theme-text-color, #000);
-        }
-        button {
-            background: var(--tg-theme-button-color, #0088cc);
-            color: var(--tg-theme-button-text-color, #fff);
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            width: 100%;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation Form</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E86DE',
+            secondary: '#10AC84',
+            background: '#F5F6FA',
+            text: '#2C3E50',
+            border: '#E1E8ED',
+          },
+          fontFamily: {
+            sans: ['Noto Sans', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* Custom styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      color: #2C3E50;
+      background-color: #F5F6FA;
+    }
+
+    /* RTL Support */
+    [dir="rtl"] .currency-sign {
+      left: auto;
+      right: 12px;
+    }
+
+    [dir="rtl"] input[type="number"] {
+      padding-left: 12px !important;
+      padding-right: 28px !important;
+    }
+
+    [dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+      --tw-space-x-reverse: 1 !important;
+      margin-right: calc(0.5rem * var(--tw-space-x-reverse)) !important;
+      margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse))) !important;
+    }
+
+    /* Active amount button */
+    .amount-btn.active {
+      background-color: #2E86DE;
+      color: white;
+      border-color: #2E86DE;
+    }
+
+    /* Custom focus styles */
+    input:focus, select:focus, button:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(46, 134, 222, 0.3);
+    }
+
+    /* Prevent number input spinner */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+      color: #2C3E50;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    select {
+      color: #2C3E50;
+      background-color: #FFFFFF;
+    }
+
+    select#duration {
+      color: #2C3E50;
+      background-color: #FFFFFF;
+    }
+
+    select#duration option {
+      color: #2C3E50;
+    }
+
+    .text-gray-500 {
+      color: #64748B;
+    }
+
+    label, h2 {
+      color: #2C3E50;
+    }
+
+    select option {
+      color: #2C3E50;
+      background-color: #FFFFFF;
+    }
+
+    /* Smooth transitions */
+    .amount-btn {
+      transition: all 0.2s ease;
+    }
+
+    /* Validation styling */
+    input:invalid {
+      border-color: #FF4D4F;
+    }
+
+    /* Adjust for Telegram theme */
+    body {
+      color: var(--tg-theme-text-color, #2C3E50);
+      background-color: var(--tg-theme-bg-color, #F5F6FA);
+    }
+
+    .tg-button {
+      background-color: var(--tg-theme-button-color, #2E86DE);
+      color: var(--tg-theme-button-text-color, #FFFFFF);
+    }
+
+    .tg-button:active {
+      background-color: var(--tg-theme-button-color, #2E86DE);
+      opacity: 0.8;
+    }
+
+    .tg-link {
+      color: var(--tg-theme-link-color, #2E86DE);
+    }
+
+    .tg-card {
+      background-color: var(--tg-theme-secondary-bg-color, #FFFFFF);
+    }
+  </style>
 </head>
 <body>
-    <form id="registrationForm">
-        <!-- Form content will be dynamically updated based on language -->
+  <div class="container mx-auto px-4 py-2 max-w-md">
+    <!-- Header -->
+    <header class="mb-4 text-center">
+      <div class="mb-4 flex justify-center">
+        <div class="bg-primary h-14 w-14 rounded-full flex items-center justify-center text-white text-2xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="text-xl font-semibold mb-1" id="title-text">Make a Donation</h1>
+      <p class="text-gray-500 text-sm" id="subtitle-text">Your support helps us make a difference</p>
+    </header>
+
+    <!-- Form -->
+    <form id="donationForm" class="bg-white rounded-lg shadow-md overflow-hidden">
+      <!-- Language selector -->
+      <div class="bg-gray-100 p-3 border-b" dir="ltr">
+        <div class="flex justify-between items-center">
+          <label for="language" class="text-sm font-medium" id="language-text">
+            Language
+          </label>
+          <select 
+            id="language" 
+            class="bg-white border border-gray-300 text-gray-700 py-1.5 px-3 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-primary"
+            onchange="handleLanguageChange(this.value)"
+          >
+            <option value="English">English</option>
+            <option value="Arabic">العربية</option>
+            <option value="Amharic">አማርኛ</option>
+            <option value="Affan Oromo">Afaan Oromoo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="p-4 space-y-5">
+        <!-- Personal Information Section -->
+        <div class="space-y-3">
+          <h2 class="text-base font-semibold pb-1 border-b" id="personal-info-text">Personal Information</h2>
+
+          <div class="space-y-1.5">
+            <label for="fullName" class="block font-medium text-sm" id="fullname-text">Full Name</label>
+            <input 
+              type="text" 
+              id="fullName" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+              minlength="3"
+            />
+            <p class="text-red-500 text-xs hidden" id="fullname-error">Please enter your full name</p>
+          </div>
+
+          <div class="space-y-1.5">
+            <label for="phone" class="block font-medium text-sm" id="phone-text">Phone Number</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            />
+            <p class="text-red-500 text-xs hidden" id="phone-error">Please enter a valid phone number</p>
+          </div>
+        </div>
+
+        <!-- Donation Details Section -->
+        <div class="space-y-3">
+          <h2 class="text-base font-semibold pb-1 border-b" id="donation-details-text">Donation Details</h2>
+
+          <!-- Donation Amount -->
+          <div class="space-y-2">
+            <label class="block font-medium text-sm" id="amount-text">Monthly Donation Amount</label>
+            <input 
+              type="number" 
+              id="amount" 
+              min="100" 
+              max="1000000" 
+              value="1000"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            />
+            <p class="text-red-500 text-xs hidden" id="amount-error">Please enter a valid amount</p>
+          </div>
+
+          <!-- Duration -->
+          <div class="space-y-2">
+            <label for="duration" class="block font-medium text-sm" id="duration-text">Duration</label>
+            <select 
+              id="duration" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            >
+              <option value="1" id="month-1">1 Month</option>
+              <option value="3" id="month-3">3 Months</option>
+              <option value="6" id="month-6">6 Months</option>
+              <option value="12" id="month-12">12 Months</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            class="w-full py-2.5 px-4 bg-primary text-white rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary tg-button"
+            id="submit-button"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </form>
+  </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+  <script>
+    // Initialize Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const selectedLang = urlParams.get('lang') || 'en';
-        const userId = urlParams.get('user_id');
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedLang = urlParams.get('lang') || 'en';
+    const userId = urlParams.get('user_id');
 
-        // Define translations
-        const translations = {
-            'en': {
-                language: 'Language',
-                fullName: 'Full Name',
-                phone: 'Phone Number',
-                amount: 'Monthly Donation Amount',
-                duration: 'Duration',
-                months: {
-                    1: '1 Month',
-                    3: '3 Months',
-                    6: '6 Months',
-                    12: '12 Months'
-                },
-                register: 'Submit'
-            },
-            'am': {
-                language: 'ቋንቋ',
-                fullName: 'ሙሉ ስም',
-                phone: 'ስልክ ቁጥር',
-                amount: 'የወር ልገሳ መጠን',
-                duration: 'ጊዜ',
-                months: {
-                    1: '1 ወር',
-                    3: '3 ወራት',
-                    6: '6 ወራት',
-                    12: '12 ወራት'
-                },
-                register: 'አስገባ'
-            },
-            'or': {
-                language: 'Afaan',
-                fullName: 'Maqaa Guutuu',
-                phone: 'Lakkoofsa Bilbilaa',
-                amount: 'Hanga Kennaa Ji\'aa',
-                duration: 'Yeroo',
-                months: {
-                    1: 'Ji\'a 1',
-                    3: 'Ji\'a 3',
-                    6: 'Ji\'a 6',
-                    12: 'Ji\'a 12'
-                },
-                register: 'Galchi'
-            },
-            'ar': {
-                language: 'اللغة',
-                fullName: 'الاسم الكامل',
-                phone: 'رقم الهاتف',
-                amount: 'مبلغ التبرع الشهري',
-                duration: 'المدة',
-                months: {
-                    1: 'شهر واحد',
-                    3: '3 أشهر',
-                    6: '6 أشهر',
-                    12: '12 شهر'
-                },
-                register: 'إرسال'
-            }
+    // Translation mapping for language codes
+    const langMap = {
+      "English": "en",
+      "Arabic": "ar",
+      "Amharic": "am",
+      "Affan Oromo": "or"
+    };
+
+    // Reverse mapping for language names
+    const langMapReverse = {
+      "en": "English",
+      "ar": "Arabic",
+      "am": "Amharic",
+      "or": "Affan Oromoo"
+    };
+
+    // Current language
+    let currentLanguage = langMapReverse[selectedLang] || "English";
+
+    // Translations for all supported languages
+    const translations = {
+      'en': {
+        title: 'Make a Donation',
+        subtitle: 'Your support helps us make a difference',
+        language: 'Language',
+        personalInfo: 'Personal Information',
+        fullName: 'Full Name',
+        fullNameError: 'Please enter your full name',
+        phone: 'Phone Number',
+        phoneError: 'Please enter a valid phone number',
+        donationDetails: 'Donation Details',
+        amount: 'Monthly Donation Amount',
+        amountError: 'Please enter a valid amount',
+        duration: 'Duration',
+        months: {
+          1: '1 Month',
+          3: '3 Months',
+          6: '6 Months',
+          12: '12 Months'
+        },
+        submit: 'Submit'
+      },
+      'ar': {
+        title: 'تقديم تبرع',
+        subtitle: 'دعمك يساعدنا على إحداث فرق',
+        language: 'اللغة',
+        personalInfo: 'المعلومات الشخصية',
+        fullName: 'الاسم الكامل',
+        fullNameError: 'يرجى إدخال اسمك الكامل',
+        phone: 'رقم الهاتف',
+        phoneError: 'يرجى إدخال رقم هاتف صحيح',
+        donationDetails: 'تفاصيل التبرع',
+        amount: 'مبلغ التبرع الشهري',
+        amountError: 'يرجى إدخال مبلغ صحيح',
+        duration: 'المدة',
+        months: {
+          1: 'شهر واحد',
+          3: '3 أشهر',
+          6: '6 أشهر',
+          12: '12 شهر'
+        },
+        submit: 'إرسال'
+      },
+      'am': {
+        title: 'ልገሳ ያድርጉ',
+        subtitle: 'የእርስዎ ድጋፍ ለውጥ እንድናመጣ ይረዳናል',
+        language: 'ቋንቋ',
+        personalInfo: 'የግል መረጃ',
+        fullName: 'ሙሉ ስም',
+        fullNameError: 'እባክዎ ሙሉ ስምዎን ያስገቡ',
+        phone: 'ስልክ ቁጥር',
+        phoneError: 'እባክዎ ትክክለኛ ስልክ ቁጥር ያስገቡ',
+        donationDetails: 'የልገሳ ዝርዝሮች',
+        amount: 'የወር ልገሳ መጠን',
+        amountError: 'እባክዎ ትክክለኛ መጠን ያስገቡ',
+        duration: 'ጊዜ',
+        months: {
+          1: '1 ወር',
+          3: '3 ወራት',
+          6: '6 ወራት',
+          12: '12 ወራት'
+        },
+        submit: 'አስገባ'
+      },
+      'or': {
+        title: 'Kennaa Godhi',
+        subtitle: 'Deeggarsi keessan jijjiirama fiduu keenyaaf nu gargaara',
+        language: 'Afaan',
+        personalInfo: 'Odeeffannoo Dhuunfaa',
+        fullName: 'Maqaa Guutuu',
+        fullNameError: 'Maaloo maqaa guutuu kee galchi',
+        phone: 'Lakkoofsa Bilbilaa',
+        phoneError: 'Maaloo lakkoofsa bilbilaa sirrii galchi',
+        donationDetails: 'Ibsa Kennaa',
+        amount: 'Hanga Kennaa Ji\'aa',
+        amountError: 'Maaloo hamma sirrii galchi',
+        duration: 'Yeroo',
+        months: {
+          1: 'Ji\'a 1',
+          3: 'Ji\'a 3',
+          6: 'Ji\'a 6',
+          12: 'Ji\'a 12'
+        },
+        submit: 'Galchi'
+      }
+    };
+
+    // Handle form submission
+    document.getElementById('donationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (validateForm()) {
+        const formData = {
+          fullName: document.getElementById('fullName').value,
+          phone: document.getElementById('phone').value,
+          language: document.getElementById('language').value,
+          amount: document.getElementById('amount').value,
+          duration: document.getElementById('duration').value,
+          isUpdate: Boolean(userId)
         };
 
-        // Function to load user data if available
-        function loadUserData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const langMap = {
-                'en': 'English',
-                'am': 'Amharic',
-                'or': 'Affan Oromo',
-                'ar': 'Arabic'
-            };
-            if (urlParams.get('lang')){
-              language = langMap[urlParams.get('lang')]
-            }else{
-              language = 'English'
-            }
+        // Send data back to Telegram Bot
+        tg.sendData(JSON.stringify(formData));
 
+        // Close the WebApp after sending data if needed
+        // tg.close();
+      }
+    });
 
-            document.getElementById('fullName').value = decodeURIComponent(urlParams.get('fullName') || '');
-            document.getElementById('phone').value = urlParams.get('phone') || '';
-            document.getElementById('amount').value = urlParams.get('amount') || '';
-            document.getElementById('duration').value = urlParams.get('duration') || '';
-            document.getElementById('language').value = language;
-        }
+    // Function to validate form
+    function validateForm() {
+      let isValid = true;
+      const lang = langMap[currentLanguage] || 'en';
 
-        function updateFormContent(t, selectedLang) {
-            const langMap = {
-                'en': 'English',
-                'am': 'Amharic',
-                'or': 'Affan Oromo',
-                'ar': 'Arabic'
-            };
-            
-            document.getElementById('registrationForm').innerHTML = `
-                <div class="form-group">
-                    <label for="language">${t.language}</label>
-                    <select id="language" required onchange="handleLanguageChange(this.value)">
-                        <option value="Amharic" ${langMap[selectedLang] === 'Amharic' ? 'selected' : ''}>አማርኛ</option>
-                        <option value="Affan Oromo" ${langMap[selectedLang] === 'Affan Oromo' ? 'selected' : ''}>Afaan Oromoo</option>
-                        <option value="English" ${langMap[selectedLang] === 'English' ? 'selected' : ''}>English</option>
-                        <option value="Arabic" ${langMap[selectedLang] === 'Arabic' ? 'selected' : ''}>العربية</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="fullName">${t.fullName}</label>
-                    <input type="text" id="fullName" required minlength="3" title="Please enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="phone">${t.phone}</label>
-                    <input type="tel" id="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="amount">${t.amount}</label>
-                    <input type="number" id="amount" min="100" max="1000000" required>
-                </div>
-                <div class="form-group">
-                    <label for="duration">${t.duration}</label>
-                    <select id="duration" required>
-                        <option value="1">${t.months[1]}</option>
-                        <option value="3">${t.months[3]}</option>
-                        <option value="6">${t.months[6]}</option>
-                        <option value="12">${t.months[12]}</option>
-                    </select>
-                </div>
-                <button type="submit">${t.register}</button>
-            `;
+      // Validate name
+      const fullNameInput = document.getElementById('fullName');
+      if (!fullNameInput.value.trim() || fullNameInput.value.length < 3) {
+        showError('fullname-error');
+        isValid = false;
+      } else {
+        hideError('fullname-error');
+      }
 
-            // Reattach the submit event listener
-            document.getElementById('registrationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = {
-                    fullName: document.getElementById('fullName').value,
-                    phone: document.getElementById('phone').value,
-                    language: document.getElementById('language').value,
-                    amount: document.getElementById('amount').value,
-                    duration: document.getElementById('duration').value,
-                    isUpdate: Boolean(userId)
-                };
-                tg.sendData(JSON.stringify(formData));
-            });
+      // Validate phone
+      const phoneInput = document.getElementById('phone');
+      const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+      if (!phoneInput.value.trim() || !phoneRegex.test(phoneInput.value)) {
+        showError('phone-error');
+        isValid = false;
+      } else {
+        hideError('phone-error');
+      }
 
-            // Load user data if available
-            loadUserData();
-        }
+      // Validate amount
+      const amountInput = document.getElementById('amount');
+      const amount = parseInt(amountInput.value, 10);
+      if (isNaN(amount) || amount < 100 || amount > 1000000) {
+        showError('amount-error');
+        isValid = false;
+      } else {
+        hideError('amount-error');
+      }
 
-        function handleLanguageChange(value) {
-            const langMap = {
-                "Amharic": "am",
-                "Affan Oromo": "or",
-                "English": "en",
-                "Arabic": "ar"
-            };
-            const lang = langMap[value];
-            if (lang) {
-                updateFormContent(translations[lang], lang);
-                // Restore form values
-                const formFields = ['fullName', 'phone', 'amount', 'duration'];
-                formFields.forEach(field => {
-                    const el = document.getElementById(field);
-                    if (el) el.value = document.getElementById(field).value;
-                });
-                document.getElementById('language').value = value;
-            }
-        }
+      return isValid;
+    }
 
-        // Initialize form with selected language
-        updateFormContent(translations[selectedLang], selectedLang);
-    </script>
+    // Function to show error
+    function showError(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    // Function to hide error
+    function hideError(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Function to update text based on language
+    function updateTexts() {
+      const lang = langMap[currentLanguage] || 'en';
+      const t = translations[lang];
+
+      // Update page texts
+      document.getElementById('title-text').textContent = t.title;
+      document.getElementById('subtitle-text').textContent = t.subtitle;
+      document.getElementById('language-text').textContent = t.language;
+      document.getElementById('personal-info-text').textContent = t.personalInfo;
+      document.getElementById('fullname-text').textContent = t.fullName;
+      document.getElementById('phone-text').textContent = t.phone;
+      document.getElementById('donation-details-text').textContent = t.donationDetails;
+      document.getElementById('amount-text').textContent = t.amount;
+      document.getElementById('duration-text').textContent = t.duration;
+      document.getElementById('submit-button').textContent = t.submit;
+
+      // Update month options
+      document.getElementById('month-1').textContent = t.months[1];
+      document.getElementById('month-3').textContent = t.months[3];
+      document.getElementById('month-6').textContent = t.months[6];
+      document.getElementById('month-12').textContent = t.months[12];
+
+      // Update error messages
+      document.getElementById('fullname-error').textContent = t.fullNameError;
+      document.getElementById('phone-error').textContent = t.phoneError;
+      document.getElementById('amount-error').textContent = t.amountError;
+
+      // Set RTL direction for Arabic
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('donationForm').dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+
+    // Function to handle language change
+    function handleLanguageChange(value) {
+      currentLanguage = value;
+      updateTexts();
+    }
+
+    // Function to load user data if available
+    function loadUserData() {
+      // If URL has parameters, use them to prefill the form
+      document.getElementById('fullName').value = decodeURIComponent(urlParams.get('fullName') || '');
+      document.getElementById('phone').value = urlParams.get('phone') || '';
+      document.getElementById('amount').value = urlParams.get('amount') || '1000';
+      document.getElementById('duration').value = urlParams.get('duration') || '1';
+      document.getElementById('language').value = currentLanguage;
+    }
+
+    // Initialize the form
+    document.addEventListener('DOMContentLoaded', function() {
+      updateTexts();
+      loadUserData();
+    });
+  </script>
 </body>
 </html>
