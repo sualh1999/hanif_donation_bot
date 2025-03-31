@@ -369,7 +369,10 @@ async def handle_admin_message_button(update: Update, context: CallbackContext) 
 async def send_admin_message(update: Update, context: CallbackContext) -> int:
     user_id = context.user_data.get('target_user_id')
     message_text = update.message.text
-    user = session.query(User).filter_by(id=user_id).first()
+    lang = context.user_data.get('language')
+    if not lang:
+        user = session.query(User).filter_by(id=user_id).first()
+        lang = user.language if user else "en"
     
     keyboard = [
         [InlineKeyboardButton("💬 Reply to Admin", callback_data="talk_admin")]
@@ -378,7 +381,7 @@ async def send_admin_message(update: Update, context: CallbackContext) -> int:
     
     await context.bot.send_message(
         chat_id=user_id,
-        text=get_message('admin_message', user.language, message=message_text),
+        text=get_message('admin_message', lang, message=message_text),
         reply_markup=reply_markup
     )
     
@@ -482,9 +485,9 @@ def main():
     
     message_conv_handler = ConversationHandler(
         entry_points=[
+            CommandHandler("talk", handle_user_talk_button),
             CallbackQueryHandler(handle_admin_message_button, pattern=r'^message_\d+$'),
-            CallbackQueryHandler(handle_user_talk_button, pattern=r'^talk_admin$'),
-            CommandHandler("talk", handle_user_talk_button)
+            CallbackQueryHandler(handle_user_talk_button, pattern=r'^talk_admin$')
         ],
         states={
             ADMIN_MESSAGE: [MessageHandler(filters.TEXT & ~filters.COMMAND, send_admin_message)],
