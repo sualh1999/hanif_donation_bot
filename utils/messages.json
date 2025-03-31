@@ -1,9 +1,12 @@
 {
   "welcome": {
-    "en": "Welcome! 👋\n\nI'm your donation management assistant. I can help you:\n• Set up recurring donations\n• Get payment reminders\n\nTap 'Register' to begin!",
-    "am": "እንኳን ደህና መጡ! 👋\n\nእኔ የእርስዎ የልገሳ አስተዳዳሪ ነኝ። እርዳታ እችላለሁ፡\n• ተከታታይ ልገሳዎችን ማዘጋጀት\n• የክፍያ ማስታወሻዎችን ማግኘት\n\nለመመዝገብ 'Register' የሚለውን ይጫኑ!",
-    "or": "Baga nagaan dhuftan! 👋\n\nAni gargaaraa keessan kennaa keessanii. Isin gargaaruu nan danda'a:\n• Kennaa yeroo yeroon kennuu\n• Yaadachiisa kaffaltii argachuu\n\nGalmeessuuf 'Register' tuqi!",
-    "ar": "مرحباً! 👋\n\nأنا مساعد إدارة التبرعات. يمكنني مساعدتك في:\n• إعداد التبرعات المتكررة\n• الحصول على تذكيرات الدفع\n\nانقر على 'Register' للبدء!"
+    "en": "Welcome to Hanif Charity! This bot helps you support our cause by becoming a member or making a one-time donation.\n\n- Click 'Register' to join as a member.\n- Click 'One-Time Payment' to donate without membership.\n- Type '/talk' to chat with an admin for assistance.",
+
+    "ar": "مرحبًا بكم في مؤسسة حنيف الخيرية! يساعدك هذا البوت في دعم قضيتنا عن طريق الانضمام كعضو أو تقديم تبرع لمرة واحدة.\n\n- اضغط على 'التسجيل' للانضمام كعضو.\n- اضغط على 'دفع مرة واحدة' للتبرع دون عضوية.\n- اكتب '/talk' للتحدث مع المشرف للحصول على المساعدة.",
+
+    "am": "ለሃኒፍ በጎ አድራጎት እንኳን በደህና መጡ! ይህ ቦት ለአባልነት መቀላቀል ወይም አንድ ጊዜ የሆነ ድጋፍ በማድረግ እርዳታ ለመስጠት ይረዳዎታል።\n\n- አባል ለመሆን 'መመዝገብ' ይጫኑ።\n- አንድ ጊዜ ለመዋጥ 'አንድ ጊዜ ክፍያ' ይጫኑ።\n- ከአስተዳዳሪ ጋር ለመደራረት '/talk' ይተይቡ።",
+
+    "or": "Baga gara Hanif Charity geessan! Botii kun miseensa ta'uu fi gargaarsa yeroo tokkoo kennuu keessatti isin gargaara.\n\n- Miseensa ta'uuf 'Galmaa'i' tuqi.\n- Gargaarsa yeroo tokkoo kennuuf 'Gatii Yeroo Tokkoo' tuqi.\n- Gargaarsa argachuuf '/talk' barreessi."
   },
   "registration_complete": {
     "en": "Registration complete! ✅\n\nYour plan:\n💰 Amount: {amount}\n📅 Duration: {duration} months\n\nI'll remind you when it's time to pay!\nYour next payment will be due on {next_due}.Would you like to start the donation now or on the due date?",
@@ -64,6 +67,30 @@
     "am": "የመገለጫ መረጃዎ በተሳካ ሁኔታ ተዘምኗል! 🎉\nወደ መነሻ ገጽ ለመመለስ /start ይተይቡ።",
     "or": "Profaayilii keessanii sirriitti haaromameera! 🎉\nEessumaatti deebi'uuf /start jedhu taphachaa.",
     "ar": "تم تحديث ملفك الشخصي بنجاح! 🎉\nللعودة إلى الصفحة الرئيسية، اكتب /start."
+  },
+  "onetime_payment": {
+    "en": "One-Time Payment",
+    "ar": "دفع مرة واحدة",
+    "am": "አንድ ጊዜ ክፍያ",
+    "or": "Gatii Yeroo Tokkoo"
+},
+  "onetime_payment_message": {
+    "en": "Send Your onetime payment reciept!",
+    "am": "Send Your onetime payment reciept!",
+    "or": "Send Your onetime payment reciept!",
+    "ar": "Send Your onetime payment reciept!"
+  },
+  "onetime_payment_success": {
+    "en": "The receipt has been sent to the admin, you can type your reason for the payment by clicking the button below.",
+    "ar": "تم إرسال الإيصال إلى المسؤول، يمكنك كتابة سبب الدفع بالنقر على الزر أدناه.",
+    "am": "እቃው ወደ አስተዳዳሪ ተል኷ል፣ ከታች በሚጫኑበት አንድ እርስዎን ምክንያት ማሳሰቢያን ማስተካከል ይችላሉ።",
+    "or": "Raayyaa kaffaltii kee gara adminitti ergameera, sababni kaffaltii kee bakka tuqaa jiru irratti barreessuu dandeessa."
+},
+  "unknown_input": {
+    "en": "Unkown input!!\n/start",
+    "am": "Unkown input!!\n/start",
+    "or": "Unkown input!!\n/start",
+    "ar": "Unkown input!!\n/start"
 }
 
 }
