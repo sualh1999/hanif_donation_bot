@@ -75,7 +75,7 @@ async def start(update: Update, context: CallbackContext) -> None:
                 one_time_keyboard=True)
         
         await context.bot.send_message(chat_id=user_id,
-            text=get_message('welcome'), reply_markup=reply_markup
+            text=get_message('welcome', selected_lang), reply_markup=reply_markup
         )
 
     else:
@@ -330,11 +330,11 @@ async def handle_receipt(update: Update, context: CallbackContext) -> int:
     )
     
     try:
-        await context.bot.send_message(chat_id=ADMIN_ID, text=admin_message)
         await context.bot.send_photo(
             chat_id=ADMIN_ID,
             photo=photo.file_id,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
+            caption=admin_message
         )
     except Exception as e:
         print(f"Failed to forward receipt to admin: {str(e)}")
